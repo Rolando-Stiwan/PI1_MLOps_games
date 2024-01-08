@@ -2,5 +2,5 @@ fastapi
 pandas
 numpy
 uvicorn
-pyarrow
-fastparquet 
+pickle
+gzip
