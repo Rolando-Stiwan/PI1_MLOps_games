@@ -2,4 +2,3 @@ fastapi
 pandas
 numpy
 uvicorn
-gzip
