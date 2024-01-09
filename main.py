@@ -10,14 +10,14 @@ app = FastAPI()
 
 # http://127.0.0.1:8000
 
-playtime = pd.read_csv('../playtime.csv')
-userfor = pd.read_csv('../userfor.csv')
-user_recom = pd.read_csv('../user_recom.csv')
-user_worst = pd.read_csv('../user_worst.csv')
-sa = pd.read_csv('../sa.csv')
-df_item_cos = pd.read_csv('../df_item_cos.csv', index_col=0)
-training_2 = pd.read_csv('../training_2.csv')
-with gzip.open('../cosine_sim.pkl.gz', 'rb') as f: cosine_sim = pickle.load(f)
+playtime = pd.read_csv('playtime.csv')
+userfor = pd.read_csv('userfor.csv')
+user_recom = pd.read_csv('user_recom.csv')
+user_worst = pd.read_csv('user_worst.csv')
+sa = pd.read_csv('sa.csv')
+df_item_cos = pd.read_csv('df_item_cos.csv', index_col=0)
+training_2 = pd.read_csv('training_2.csv')
+with gzip.open('cosine_sim.pkl.gz', 'rb') as f: cosine_sim = pickle.load(f)
 
 
 
