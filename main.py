@@ -16,7 +16,8 @@ user_recom = pd.read_csv('user_recom.csv')
 user_worst = pd.read_csv('user_worst.csv')
 sa = pd.read_csv('sa.csv')
 df_item_cos = pd.read_csv('df_item_cos.csv', index_col=0)
-training_2 = pd.read_csv('training_2.csv')
+training = pd.read_csv('training.csv')
+training_1 = pd.read_csv('training_1.csv')
 with gzip.open('cosine_sim.pkl.gz', 'rb') as f: cosine_sim = pickle.load(f)
 
 
@@ -132,6 +133,7 @@ def sentiment_analysis(developer: str= Query(...,
     return resultado
 
 
+
 @app.get("/recomendacion_juego/")
 def recomendacion_juego(game: str= Query(..., 
                                 description="Dado el id del juego se recibe una lista de 5 juegos similares al ingresado", 
@@ -145,7 +147,8 @@ def recomendacion_juego(game: str= Query(...,
     juegos_similares = df_item_cos.sort_values(by=game, ascending=False).index[1:6]
 
     for item in juegos_similares:
-        recomendacion.append({'No.': count, 'Juego': str(item)})
+        item_name = training[training['item_id'] == item]['item_name'].values[0]
+        recomendacion.append({'No.': count, 'Juego': item_name, 'Id del juego': item})
         count += 1
     
     return {"Juegos similares a {}".format(game): recomendacion}
@@ -155,34 +158,40 @@ def recomendacion_juego(game: str= Query(...,
 @app.get("/recomendacion_usuario/")
 def recomendacion_usuario(user_id: str= Query(..., 
                                 description="Dado el user_id se recopmienda 5 juegos al usuario", 
-                                example="OfficialShroomsy")):
+                                example="RandomSounds")):
     user_id = user_id.lower()
     n=5
 
     # Verificar si el user_id está en el DataFrame
-    if user_id not in training_2['user_id'].str.lower().unique():
+    if user_id not in training_1['user_id'].str.lower().unique():
         return {"Mensaje": f"El usuario con el ID {user_id} no está registrado en los datos."}
     
     # Encuentra el índice del usuario en el DataFrame
-    user_index = training_2[training_2['user_id'].str.lower() == user_id]['user_id_encoded'].iloc[0]
+    user_index = training_1[training_1['user_id'].str.lower() == user_id]['user_id_encoded'].iloc[0]
     
     # Obtener juegos similares ordenados por similitud de coseno
     juegos_similares = list(enumerate(cosine_sim[user_index]))
     juegos_similares = sorted(juegos_similares, key=lambda x: x[1], reverse=True)
     
     # Obtener los juegos ya jugados por el usuario
-    juegos_jugados = set(training_2[training_2['user_id'].str.lower() == user_id]['item_id'].tolist())
+    juegos_jugados = set(training_1[training_1['user_id'].str.lower() == user_id]['item_id'].tolist())
     
     # Filtrar juegos similares que ya han sido jugados y no están en la lista
     top_juegos_similares = []
     for idx, _ in juegos_similares:
         if len(top_juegos_similares) >= n:
             break
-        game_id = training_2.iloc[idx]['item_id']
+        game_id = training_1.iloc[idx]['item_id']
         if game_id not in juegos_jugados and game_id not in top_juegos_similares:
             top_juegos_similares.append(game_id)
-    # Crear el diccionario con el formato deseado
-    juegos_recomendados = [{'No.': i+1, 'Juego': str(game_id)} for i, game_id in enumerate(top_juegos_similares)]
-    salida = {'Juegos recomendados a {}'.format(user_id): juegos_recomendados}
+
+    # Obtener los nombres de los juegos recomendados
+    juegos_recomendados = []
+    for game_id in top_juegos_similares:
+        item_name = training[training['item_id'] == game_id]['item_name']
+        if not item_name.empty:
+            item_name = item_name.values[0]
+            juegos_recomendados.append({'id del juego': str(game_id), 'Nombre': str(item_name)})
     
+    salida = {'Juegos recomendados a {}'.format(user_id): juegos_recomendados}
     return salida
