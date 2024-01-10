@@ -57,7 +57,10 @@ Las consultas para este sistema son:
 
 **recomendación_usuario**: Dado el id de un usuario se recomiendan una serie de 5 juegos relacionados con los juegos que normalmente juega.
 
-NOTA: Se debe tener en cuneta que para esta última función se tomaron solo 3000 datos, se hizo para que funcionara el deploy correctamente en la plataforma render.
+NOTA: Se debe tener en cuenta que para esta última función se tomaron solo 3000 datos, se hizo para que funcionara el deploy correctamente en la plataforma render.
 
 Para realizar el deploy en la nube se utilizo la plataforma render, a continuación, se deja el link.  
 https://stiwan-fastapi.onrender.com
+
+Link del video
+https://youtu.be/kCtaBMHxJ0M
