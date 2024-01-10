@@ -25,6 +25,7 @@ En esta fase se llevo a cabo una primera etapa del ETL, donde se extrajeron y de
 En esta fase se hizo el análisis de sentimientos al dataset reviews en la columna donde estaban las reseñas de los usuarios. Para esto se usó la librería NLTK (Natural Language Toolkit) de Python, donde a clasificación fue 2 para una reseña positiva, 1 para una neutral y 0 para una negativa.
 
 Después se realizó un análisis al dataset ítems a la columna playtime_forever que muestra el tiempo jugado acumulado del usuario en un juego, aquí se pudo ver que había valores atípicos y anomalías y se determino trabajar con los tiempos que son menores a 10000 horas pues estos datos representan el 96.89% de los datos totales.
+
 También se hizo una segunda etapa del ETL pues se armaron datasets para ser usados en cada consulta, allí se unieron datasets y se borraron columnas según era necesario.
 
 #### Fase 3 Desarrollo de las Funciones 
