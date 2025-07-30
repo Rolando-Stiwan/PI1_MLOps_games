@@ -76,13 +76,7 @@ Se realizaron análisis exploratorios sobre:
 
 La API se encuentra desplegada en **Render**, accesible públicamente en el siguiente enlace:
 
-🔗 https://stiwan-fastapi.onrender.com
-
----
-
-## 🎥 Demo
-
-📽️ [Ver video de demostración en YouTube](https://youtu.be/kCtaBMHxJ0M)
+🔗 https://stiwan-fastapi.onrender.com/docs
 
 ---
 
